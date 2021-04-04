@@ -6,10 +6,14 @@ const fs = require('fs')
 
 
 let givenAddress='0x0ed1BCc400aCd34593451e76f854992198995f52'
+let web3
+try{
+   web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
+}catch(err){
+  console.log("provide not set")
+  
+}
 
-
-
-var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
 
 
 var contractsArray = [];
@@ -46,7 +50,6 @@ async  function contractInitalize(contract,address=null,counter){
            console.log("the function need parameter to be passed")
          }
       }
-  
 
 
 
@@ -70,7 +73,7 @@ async function methodfinding(contract,counter){
   
 
       if(funName[i].endsWith('()')){
-        console.log(funName[i])
+        console.log(funName[i]);
         instance.methods[funName[i]]().call() 
        .then((value)=>console.log(value))
        .catch(err => console.log("deployed address is different")) 
@@ -79,8 +82,7 @@ async function methodfinding(contract,counter){
         }
      
 
-      
-   
+    
     //  console.log(await instance.methods[funName[i]]().call())
  }
 
