@@ -13,7 +13,8 @@ var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
 
 var contractsArray = [];
 let addr
-let output=[]
+let output={}
+
 let instanceObj ={}
 
 async  function contractInitalize(contract,address=null,counter){
@@ -899,6 +900,8 @@ let newtworkId= Object.keys(networkData)
 }
 
 for (const property in instanceObj) {
+
+let funArray=[]
   console.log(`${property}: ${instanceObj[property]._address}`);
 
   if(instanceObj[property]._address==givenAddress){
@@ -908,13 +911,17 @@ for (const property in instanceObj) {
  for(let i=2;i<funName.length;i=i+3){
   
       console.log(funName[i])
-      output.push(funName[i])
+      funArray.push(funName[i])
       
     //  console.log(await instance.methods[funName[i]]().call())
  }
-    fs.writeFileSync('output',output)
+   
   }
+  output[property]=funArray
 }
+
+console.log(output)
+fs.writeFileSync('output',JSON.stringify(output))
 
 
 // console.log(networkData[newtworkId].address)
