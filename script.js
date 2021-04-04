@@ -907,7 +907,7 @@ try{
 
 for (const property in contractInstanceObj) {
 
-  let funArray=[]
+  let arrayOfMethods=[]
     console.log(`${property}: ${contractInstanceObj[property]._address}`);
 
     if(contractInstanceObj[property]._address==inputAddress){
@@ -917,13 +917,13 @@ for (const property in contractInstanceObj) {
     for(let i=2;i<methodNames.length;i=i+3){
       
           console.log(methodNames[i])
-          funArray.push(methodNames[i])
+          arrayOfMethods.push(methodNames[i])
           
         //  console.log(await contractInstance.methods[methodNames[i]]().call())
     }
     
   }
-  output[property]=funArray
+  output[property]=arrayOfMethods
 }
 
 console.log(output)
