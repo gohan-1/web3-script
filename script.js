@@ -2,14 +2,21 @@
 
 const Web3 = require('web3');
 
+const fs = require('fs')
+
+let givenAddress='0x0ed1BCc400aCd34593451e76f854992198995f52'
+
+
 
 var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
 
 
 var contractsArray = [];
 let addr
+let output=[]
+let instanceObj ={}
 
-async  function contractInitalize(contract,address=null){
+async  function contractInitalize(contract,address=null,counter){
 
 
   console.log("----------------------------------------------------------------------")
@@ -19,6 +26,8 @@ async  function contractInitalize(contract,address=null){
  
  
    instance = new web3.eth.Contract(contract,address)
+
+   instanceObj[counter]=instance
   // console.log(await instance.methods)
   let funName= Object.keys(instance.methods)
 
@@ -38,16 +47,19 @@ async  function contractInitalize(contract,address=null){
 
 }
 
-async function methodfinding(contract){
+async function methodfinding(contract,counter){
 
   console.log("---------------------------------------------------------------------------")
   instance = new web3.eth.Contract(contract,'0x0ed1BCc400aCd34593451e76f854992198995f52')
+
+  instanceObj[counter]=instance
  // console.log(await instance.methods)
  let funName= Object.keys(instance.methods)
 
  for(let i=2;i<funName.length;i=i+3){
   
       console.log(funName[i])
+   
     //  console.log(await instance.methods[funName[i]]().call())
  }
 
@@ -866,13 +878,13 @@ let newtworkId= Object.keys(networkData)
 
  addr=networkData[newtworkId].address
 
- contractInitalize(contractsArray[i].abi,addr)
+ contractInitalize(contractsArray[i].abi,addr,i)
 
 
   }else{
     
     
-    methodfinding(contractsArray[i])
+    methodfinding(contractsArray[i],i)
   }
 
 }
@@ -886,6 +898,23 @@ let newtworkId= Object.keys(networkData)
     console.log(err)
 }
 
+for (const property in instanceObj) {
+  console.log(`${property}: ${instanceObj[property]._address}`);
+
+  if(instanceObj[property]._address==givenAddress){
+
+    let funName= Object.keys(instance.methods)
+
+ for(let i=2;i<funName.length;i=i+3){
+  
+      console.log(funName[i])
+      output.push(funName[i])
+      
+    //  console.log(await instance.methods[funName[i]]().call())
+ }
+    fs.writeFileSync('output',output)
+  }
+}
 
 
 // console.log(networkData[newtworkId].address)
