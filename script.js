@@ -36,9 +36,17 @@ async  function contractInitalize(contract,address=null,counter){
   for(let i=2;i<funName.length;i=i+3){
 
       console.log(funName[i-2])
-   
-      console.log(await instance.methods[funName[i]]().call())
-  }
+
+         if(funName[i].includes('()')){
+      
+         instance.methods[funName[i]]().call() 
+        .then((value)=>console.log(value))
+        .catch(err => console.log("deployed address is different")) 
+         }else{
+           console.log("the function need parameter to be passed")
+         }
+      }
+  
 
 
 
@@ -60,7 +68,18 @@ async function methodfinding(contract,counter){
 
  for(let i=2;i<funName.length;i=i+3){
   
-      console.log(funName[i])
+
+      if(funName[i].endsWith('()')){
+        console.log(funName[i])
+        instance.methods[funName[i]]().call() 
+       .then((value)=>console.log(value))
+       .catch(err => console.log("deployed address is different")) 
+        }else{
+          console.log("the function need parameter to be passed")
+        }
+     
+
+      
    
     //  console.log(await instance.methods[funName[i]]().call())
  }
